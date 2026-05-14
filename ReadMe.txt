@@ -1,4 +1,5 @@
-﻿
+﻿https://github.com/okovtun/PV_522_NP.git
+https://www.youtube.com/playlist?list=PLeqyOOqxeiIMQ8cxP8PmSD6FIDnY8e2rq
 
 TOREAD:
 1. Почитать про технологии семейства Ethernet:
