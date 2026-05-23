@@ -1,6 +1,12 @@
 ﻿https://github.com/okovtun/PV_522_NP.git
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIMQ8cxP8PmSD6FIDnY8e2rq
 
+TODO:
+1. Выучить теорию;
+2. Изучить RFC-791;
+3. Скачать и установить Wireshark:https://www.wireshark.org/#download
+	При установке обязательно нужно установить Win-PCAP, при этом USB-PCAP НЕ нужен.
+
 TOREAD:
 1. Почитать про технологии семейства Ethernet:
 	Ethernet;
