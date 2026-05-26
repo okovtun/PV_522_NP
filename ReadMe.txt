@@ -2,6 +2,13 @@
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIMQ8cxP8PmSD6FIDnY8e2rq
 
 TODO:
+Написать программу, которая по введенному IP-адресу и маске определяет:
+	1. Адрес сети;
+	2. Широковещательный адрес;
+	3. Количество IP-адресов в IP-сети;
+	4. Максимально возможное количество узлов в IP-сети;
+
+TODO:
 1. Выучить теорию;
 2. Изучить RFC-791;
 3. Скачать и установить Wireshark:https://www.wireshark.org/#download
