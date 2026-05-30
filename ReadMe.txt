@@ -2,6 +2,12 @@
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIMQ8cxP8PmSD6FIDnY8e2rq
 
 TODO:
+1. Написать функцию ??? FormatLastError(???), которая по коду, возвращенному функцией WSAGetLastError()
+   возвращает описание ошибки;
+2. Вынести функцию FormatLastError() в статическую библиотеку (*.lib);
+3. Применить статическую библиотеку в клиенте и в Сервере;
+
+DONE:
 1. Залить проект на GitHub и прислать ссылку на репозиторий;
 
 DONE:
