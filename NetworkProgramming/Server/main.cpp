@@ -109,20 +109,23 @@ void main()
 
 		//7) Получаем данные от клиента:
 		//ClientHandle(client_socket);
-		client_sockets[g_ActiveClients] = client_socket;
+		client_sockets[g_ActiveClients] = client_socket;	//сохраняем сокет подключаемого клиента в массив
 		hThreads[g_ActiveClients] = CreateThread
 		(
-			NULL,
-			0,
-			(LPTHREAD_START_ROUTINE)ClientHandle,
-			(LPVOID)client_sockets[g_ActiveClients],
+			NULL,	//атрибуты безопасности;
+			0,		//размер стека создаваемого потока. 0 - совместно используется основной стек программы;
+			(LPTHREAD_START_ROUTINE)ClientHandle,	//Указатель на функцию, которая будет выполняться в потоке;
+			//TODO:Проветрить
+			(LPVOID)client_sockets[g_ActiveClients],//Параметр, передаваемый в функцию. Функция, запускаемая в потоке должна принимать ???ОДИН??? И ТОЛЬКО ОДИН ПАРАМЕТР!!!
 			NULL,
 			&dwThreadIDs[g_ActiveClients]
 		);
 		g_ActiveClients++;
 	} while (true);
-
-	WaitForMultipleObjects(g_ActiveClients, hThreads, TRUE, INFINITE);
+	//Синхронизируем все потоки с основным потоком, в котором выполняется main()
+	{
+		WaitForMultipleObjects(g_ActiveClients, hThreads, TRUE, INFINITE);
+	}
 
 	//9) Освобождаем ресурсы, занятиые WinSOCK:
 	closesocket(listen_socket);
