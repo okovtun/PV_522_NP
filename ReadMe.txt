@@ -2,7 +2,17 @@
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIMQ8cxP8PmSD6FIDnY8e2rq
 
 TODO:
+1. https://www.codewars.com/kata/578b4f9b7c77f535fc00002f
+
+TODO:
+1. У всех клиентов кроме сообщения так же должен отображаться отправитель в виде IP:Port;
+2. Избежать вызова функции send() для одного сокета из разных потоков;
+3. На Сервере применить Mutex;
+
+DONE:
 1. Добить ShowActiveClients();
+
+Thread (Нить) - это последовательность команд Центральному процессору
 
 DONE:
 1. Проверить, можно ли вызвать функцию без параметров при помощи CreateThread();
