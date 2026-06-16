@@ -1,6 +1,7 @@
-#include<Windows.h>
+Ôªø#include<Windows.h>
 #include<iostream>
-#include<thread>
+#include<thread>//–ö–æ–Ω–∫—É—Ä–µ–Ω—Ç–Ω–æ–µ –≤—ã–ø–æ–ª–Ω–µ–Ω–∏–µ
+#include<mutex>	//Mutual execution - –≤–∑–∞–∏–º–Ω–æ–µ –≤—ã–ø–æ–ª–Ω–µ–Ω–∏–µ
 #include<chrono>
 using std::cin;
 using std::cout;
@@ -8,6 +9,8 @@ using std::endl;
 using namespace std::chrono_literals;
 
 bool finish = false;
+std::mutex mtx;
+HANDLE ghMutex = NULL;
 
 VOID Function()
 {
@@ -41,21 +44,32 @@ void Plus()
 {
 	while (!finish)
 	{
+		//mtx.lock();
+		WaitForSingleObject(ghMutex, INFINITE);
 		cout << "+ ";
-		std::this_thread::sleep_for(100ms);
+		Sleep(10);
+		ReleaseMutex(ghMutex);
+		//std::this_thread::sleep_for(100ms);
+		//mtx.unlock();
 	}
 }
 void Minus()
 {
 	while (!finish)
 	{
+		//mtx.lock();
+		WaitForSingleObject(ghMutex, INFINITE);
 		cout << "- ";
-		std::this_thread::sleep_for(100ms);
+		Sleep(10);
+		ReleaseMutex(ghMutex);
+		//std::this_thread::sleep_for(100ms);
+		//mtx.unlock();
 	}
 }
 
 //#define WINDOWS_THREADS_1
 //#define WINDOWS_THREADS_2
+//#define CPP_THREADS
 
 void main()
 {
@@ -88,13 +102,14 @@ void main()
 		NULL,
 		(LPTHREAD_START_ROUTINE)Decrement,
 		(LPVOID)i,	//LPVOID - LongPointer to VOID.
-					//VOID-pointer ÏÓÊÂÚ ı‡ÌËÚ¸ ÛÍ‡Á‡ÚÂÎ¸ Ì‡ ‡·ÒÓÎ˛ÚÌÓ Î˛·ÓÈ ÚËÔ ‰‡ÌÌ˚ı;
+					//VOID-pointer –º–æ–∂–µ—Ç —Ö—Ä–∞–Ω–∏—Ç—å —É–∫–∞–∑–∞—Ç–µ–ª—å –Ω–∞ –∞–±—Å–æ–ª—é—Ç–Ω–æ –ª—é–±–æ–π —Ç–∏–ø –¥–∞–Ω–Ω—ã—Ö;
 		NULL,
 		&dwThreadID
 	);
 	WaitForSingleObject(hThread, INFINITE);
 #endif // WINDOWS_THREADS_2
 
+#ifdef CPP_THREADS
 	//Plus();
 	//Minus();
 
@@ -106,8 +121,8 @@ void main()
 	finish = true;
 	cout << "Finish" << endl;
 
-	if(plus_thread.joinable())plus_thread.join();
-	if(minus_thread.joinable())minus_thread.join();
+	if (plus_thread.joinable())plus_thread.join();
+	if (minus_thread.joinable())minus_thread.join();
 
 	/*while (true)
 	{
@@ -115,4 +130,27 @@ void main()
 		std::this_thread::sleep_for(100ms);
 		Sleep(100);
 	}*/
+#endif // CPP_THREADS
+
+	ghMutex = CreateMutex(NULL,FALSE,NULL);
+	HANDLE hThreads[2] = {};
+	hThreads[0] = CreateThread
+	(
+		NULL,
+		NULL,
+		(LPTHREAD_START_ROUTINE)Plus,
+		NULL,
+		NULL,
+		0
+	);
+	hThreads[1] = CreateThread
+	(
+		NULL,
+		NULL,
+		(LPTHREAD_START_ROUTINE)Minus,
+		NULL,
+		NULL,
+		0
+	);
+	WaitForMultipleObjects(2, hThreads, TRUE, INFINITE);
 }

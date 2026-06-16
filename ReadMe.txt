@@ -2,6 +2,10 @@
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIMQ8cxP8PmSD6FIDnY8e2rq
 
 TODO:
+1. Опробовать потоки и мьютексы на C#;
+2. Машина должна заводиться по клавише 'i' и расходовать топливо;
+
+TODO:
 1. https://www.codewars.com/kata/578b4f9b7c77f535fc00002f
 
 TODO:
