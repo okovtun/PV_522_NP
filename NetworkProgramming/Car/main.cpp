@@ -2,6 +2,7 @@
 #include<iostream>
 #include<conio.h>
 #include<thread>
+#include<mutex>
 #include<chrono>
 using namespace std::chrono_literals;
 using std::cin;
@@ -111,6 +112,7 @@ class Car
 	bool driver_inside;
 	struct
 	{
+		std::mutex mutex;
 		std::thread panel_thread;
 		std::thread engine_idle_thread;
 	}car_threads;
@@ -170,6 +172,7 @@ public:
 				break;
 			case 'F':
 			case 'f':
+				car_threads.mutex.lock();
 				if (!driver_inside && !engine.started())
 				{
 					double amount;
@@ -177,6 +180,7 @@ public:
 					tank.fill(amount);
 				}
 				else cout << "\nНужно заглушить двигатель и выйти из машины, нас только самообслуживание" << endl;
+				car_threads.mutex.unlock();
 				break;
 			case 'I':
 			case 'i':
@@ -212,6 +216,7 @@ public:
 
 		while (driver_inside)
 		{
+			car_threads.mutex.lock();
 			SetConsoleCursorPosition(hConsole, COORD{ 12, 0 });
 			cout << tank.get_fuel_level();
 				//system("CLS");
@@ -228,6 +233,7 @@ public:
 			cout << (engine.started() ? "started" : "stopped");
 			//cout << "Eigine is " << (engine.started() ? "started" : "stopped") << endl;
 			std::this_thread::sleep_for(100ms);
+			car_threads.mutex.unlock();
 		}
 		cursor_info.bVisible = TRUE;
 		SetConsoleCursorInfo(hConsole, &cursor_info);

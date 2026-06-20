@@ -2,7 +2,7 @@
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIMQ8cxP8PmSD6FIDnY8e2rq
 
 TODO:
-1. Убрать мерцание в консоли;
+1. Убрать мерцание в консоли;	DONE
 2. Машина должна разгоняться и снижать скорость по клавишам 'W', 'w' и 'S' 's' соответственно;
 3. При изменении скорости должен изменяться так же и расход топлива по следующей таблице:
 	https://www.codewars.com/kata/578df8f3deaed98fcf0001e9#:~:text=The%20consumption%20for%20a%20driving%20car%20is%20be%20taken%20from%20these%20ranges%3A
