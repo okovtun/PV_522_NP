@@ -160,7 +160,7 @@ public:
 		do
 		{
 			key = 0;
-			if(_kbhit())	//Функция '_kbhit()' при нажатии любой клавиши возвращает 'true', в противном случае 'false'
+			if (_kbhit())	//Функция '_kbhit()' при нажатии любой клавиши возвращает 'true', в противном случае 'false'
 				key = _getch();	//Функция _getch() ожидает нажатия клавиши и возвращает ASCII-код нажатой клавиши.
 			switch (key)
 			{
@@ -176,12 +176,12 @@ public:
 					cout << "Введите объем топлива: "; cin >> amount;
 					tank.fill(amount);
 				}
-				else cout << "Нужно заглушить двигатель и выйти из машины, нас только самообслуживание" << endl;
+				else cout << "\nНужно заглушить двигатель и выйти из машины, нас только самообслуживание" << endl;
 				break;
 			case 'I':
 			case 'i':
 				if (driver_inside && !engine.started())startup();
-				else if(driver_inside)shutdown();
+				else if (driver_inside)shutdown();
 				break;
 			case Escape:
 				shutdown();
@@ -198,20 +198,39 @@ public:
 	void panel()
 	{
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_CURSOR_INFO cursor_info;
+		GetConsoleCursorInfo(hConsole, &cursor_info);
+		cursor_info.bVisible = FALSE;
+		SetConsoleCursorInfo(hConsole, &cursor_info);
+
+		CONSOLE_SCREEN_BUFFER_INFO current_state;
+		GetConsoleScreenBufferInfo(hConsole, &current_state);
+		system("CLS");
+
+		cout << "Fuel level:\t    liters." << endl;
+		cout << "Engine is " << endl;
+
 		while (driver_inside)
 		{
-			system("CLS");
-			cout << "Fuel level: " << tank.get_fuel_level() << " liters.\t";
+			SetConsoleCursorPosition(hConsole, COORD{ 12, 0 });
+			cout << tank.get_fuel_level();
+				//system("CLS");
+				//cout << "Fuel level: " << tank.get_fuel_level() << " liters.\t";
 			if (tank.get_fuel_level() < 5)
 			{
+				SetConsoleCursorPosition(hConsole, COORD{ 32, 0 });
 				SetConsoleTextAttribute(hConsole, 0x4F);
 				cout << " LOW FUEL ";
 				SetConsoleTextAttribute(hConsole, 0x07);
 			}
-			cout << endl;
-			cout << "Eigine is " << (engine.started() ? "started" : "stopped") << endl;
+			//cout << endl;
+			SetConsoleCursorPosition(hConsole, COORD{ 12, 1 });
+			cout << (engine.started() ? "started" : "stopped");
+			//cout << "Eigine is " << (engine.started() ? "started" : "stopped") << endl;
 			std::this_thread::sleep_for(100ms);
 		}
+		cursor_info.bVisible = TRUE;
+		SetConsoleCursorInfo(hConsole, &cursor_info);
 	}
 };
 
