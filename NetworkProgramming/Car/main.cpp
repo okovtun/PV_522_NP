@@ -1,4 +1,4 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include<iostream>
 #include<conio.h>
 #include<thread>
@@ -62,8 +62,8 @@ public:
 #define MAX_ENGINE_CONSUMPTION	30
 class Engine
 {
-	const double CONSUMPTION;		//Расход на 100км.
-	double consumption_per_second;	//Расход за 1 секунду.
+	const double CONSUMPTION;		//Р Р°СЃС…РѕРґ РЅР° 100РєРј.
+	double consumption_per_second;	//Р Р°СЃС…РѕРґ Р·Р° 1 СЃРµРєСѓРЅРґСѓ.
 	bool is_started;
 public:
 	Engine(double consumption) :CONSUMPTION
@@ -156,10 +156,12 @@ public:
 	}
 	void control()
 	{
-		char key = 0;
+		char key;
 		do
 		{
-			key = _getch();	//Функция _getch() ожидает нажатия клавиши и возвращает ASCII-код нажатой клавиши.
+			key = 0;
+			if(_kbhit())	//Р¤СѓРЅРєС†РёСЏ '_kbhit()' РїСЂРё РЅР°Р¶Р°С‚РёРё Р»СЋР±РѕР№ РєР»Р°РІРёС€Рё РІРѕР·РІСЂР°С‰Р°РµС‚ 'true', РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ 'false'
+				key = _getch();	//Р¤СѓРЅРєС†РёСЏ _getch() РѕР¶РёРґР°РµС‚ РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€Рё Рё РІРѕР·РІСЂР°С‰Р°РµС‚ ASCII-РєРѕРґ РЅР°Р¶Р°С‚РѕР№ РєР»Р°РІРёС€Рё.
 			switch (key)
 			{
 			case Enter:
@@ -171,20 +173,21 @@ public:
 				if (!driver_inside && !engine.started())
 				{
 					double amount;
-					cout << "Введите объем топлива: "; cin >> amount;
+					cout << "Р’РІРµРґРёС‚Рµ РѕР±СЉРµРј С‚РѕРїР»РёРІР°: "; cin >> amount;
 					tank.fill(amount);
 				}
-				else cout << "Нужно заглушить двигатель и выйти из машины, нас только самообслуживание" << endl;
+				else cout << "РќСѓР¶РЅРѕ Р·Р°РіР»СѓС€РёС‚СЊ РґРІРёРіР°С‚РµР»СЊ Рё РІС‹Р№С‚Рё РёР· РјР°С€РёРЅС‹, РЅР°СЃ С‚РѕР»СЊРєРѕ СЃР°РјРѕРѕР±СЃР»СѓР¶РёРІР°РЅРёРµ" << endl;
 				break;
 			case 'I':
 			case 'i':
-				if (!engine.started())startup();
-				else shutdown();
+				if (driver_inside && !engine.started())startup();
+				else if(driver_inside)shutdown();
 				break;
 			case Escape:
 				shutdown();
 				get_out();
 			}
+			if (tank.get_fuel_level() == 0 && engine.started())shutdown();
 		} while (key != Escape);
 	}
 	void engine_idle()
@@ -224,7 +227,7 @@ void main()
 	int amount;
 	while (true)
 	{
-		cout << "Введите объем топлива: "; cin >> amount;
+		cout << "Р’РІРµРґРёС‚Рµ РѕР±СЉРµРј С‚РѕРїР»РёРІР°: "; cin >> amount;
 		tank.fill(amount);
 		tank.info();
 	}
